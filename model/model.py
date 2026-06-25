@@ -33,7 +33,22 @@ class Model:
 
 
     def _calcolaImprevisti(self, parziale):
-        pass
+        i = 0
+        for n in parziale:
+            np = len(n.result)
+            p = self._calcolaValoriNonNulli(n)
+            i += 1-p/np
+        return i
+
+
+    def _calcolaValoriNonNulli(self, n):
+        c=0
+        for e in n.result.values():
+            if e is not None:
+                c += 1
+        return c
+
+
 
     def _stepIsValid(self, c, m, y1, y2):
         # Verifico che il costruttore c abbia partecipato ad almeno m campionati nel range tra year1 e year2
@@ -87,6 +102,7 @@ class Model:
         return len(self._graph.nodes), len(self._graph.edges)
 
     def getGraphDetails(self):
+        # RICORDA POSSO FARE LO STESSO CON IL PESO MINIMO, SOSTITUENDO min_peso = min e nell'else min_peso = float("inf")
         # Genera una lista di componenti connesse
         componenteConnessa = nx.connected_components(self._graph)
 
